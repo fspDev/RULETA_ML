@@ -1,0 +1,97 @@
+.BotonRegresar {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #ffe600;
+  color: #2D3277;
+  border: 2px solid #2D3277;
+  border-radius: 12px;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.2s;
+  margin-top: 20px;
+}
+
+.BotonRegresar:active {
+  transform: scale(0.95); 
+}
+
+.TriviaContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Tarjeta {
+  width: 900px;
+  border-radius: 12px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.Titulo-principal {
+  font-weight: 900; /* Mayor grosor en la tipografía */
+  font-size: 60px;
+  color: #2D3277;
+  text-align: center;
+}
+
+.Titulos {
+  font-weight: 900; /* Mayor grosor en la tipografía */
+  font-size: 38px;
+  color: #2D3277;
+  text-align: center;
+}
+
+.Pregunta {
+  font-size: 30px;
+  color: #2D3277;
+  font-weight: bold;
+  text-align: center;
+}
+
+.Opciones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px; /* Reduce el espacio entre los botones */
+}
+
+.Opcion {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #ffe600;
+  color: #2D3277;
+  border: 2px solid #2D3277;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Mensaje {
+  font-weight: bold;
+  font-size: 60px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.App-logo {
+  width: 400px;
+  padding-bottom: 30px;
+}

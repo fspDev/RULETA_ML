@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: auto; /* ajusta automáticamente la altura */
+  width: 400px; /* establece un ancho fijo */
+}
+
+.App-header {
+  background: #ffe600;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #2D3277;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.Trivia, .Ruleta {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #ffe600;
+  color: #2D3277;
+  border: 2px solid #2D3277;
+  border-radius: 12px;
+  padding: 10px 40px;
+  cursor: pointer;
+  margin: 20px;
+  transition: transform 0.2s; /* Agrega una transición suave */
+}
+
+.Trivia:active,
+.Ruleta:active {
+  transform: scale(0.95); /* Reduce ligeramente el tamaño al ser presionado */
+}

@@ -1,0 +1,163 @@
+/* Ruleta.css */
+
+/* Configuración básica del cuerpo */
+.BotonRegresar {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #ffe600;
+  color: #2D3277;
+  border: 2px solid #2D3277;
+  border-radius: 12px;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.2s;
+  margin-top: 20px;
+}
+
+.BotonGirar{
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #ffe600;
+  color: #2D3277;
+  border: 2px solid #2D3277;
+  border-radius: 12px;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.2s;
+  margin-top: 20px;
+  margin-right: 40px; /* Separación reducida entre los botones */
+}
+
+  
+  /* Estilos para el botón 'Girar' */
+  .lanzar {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    background-color: #1d63ad;
+    color: #ffffff;
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 15px 50px;
+    cursor: pointer;
+    margin: 50px;
+    transition: transform 0.2s; /* Agrega una transición suave */
+  }
+  
+  .lanzar:active {
+    transform: scale(0.95); /* Reduce ligeramente el tamaño al ser presionado */
+  }
+  
+  /* Estilos para el texto de premio */
+  .premio {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    color: #2D3277;
+  }
+  
+  /* Estilos para la imagen 'Ganaste' */
+  .ganaste {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 150px;
+  }
+  
+  .ganaste img {
+    width: 40px;
+  }
+  
+  /* Estilos para el contenedor principal */
+  .plafon {
+    position: relative;
+    margin: 10px auto 0;
+    text-align: center;
+    width: 720px;
+  }
+  
+  /* Estilos para la ruleta */
+  .ruleta {
+    width: 500px;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto 15px;
+    transition: transform 4s cubic-bezier(0.2, 1.2, 1.0, 0.99);
+  }
+  
+  /* Estilos para el centro de la ruleta */
+  .central {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 150px;
+    top: 160px;
+    transform: scale(1.25); /* Aumenta el tamaño en un 25% */
+  }
+  
+  /* Estilos generales para las imágenes */
+  img {
+    width: 100%;
+  }
+  
+  /* Clase de pausa para la animación de la barra */
+  .parate {
+    animation-play-state: paused;
+  }
+  
+  /* Animación de la barra */
+  @keyframes animacionBarra {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 100%;
+    }
+    100% {
+      width: 0%;
+    }
+  }
+  
+  /* Estilos para el contenedor de la imagen de la casilla */
+  .imagen-casilla-container {
+    position: relative;
+    z-index: 999; /* Asegura que el contenedor esté por encima de otros elementos, excepto la imagen */
+  }
+  
+  /* Estilos para la imagen de la casilla */
+  .imagen-casilla {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 50%;
+    height: auto;
+    z-index: 1000; /* Asegura que la imagen esté en la parte superior de otros elementos */
+  }
+  
+  /* Clase para aplicar desenfoque al fondo */
+  .blurred::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: inherit;
+    filter: blur(5px);
+    z-index: -1;
+  }
