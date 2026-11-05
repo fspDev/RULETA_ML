@@ -1,18 +1,23 @@
 {
   "files": {
-    "main.css": "/RULETA_ML/static/css/main.14cdd660.css",
-    "main.js": "/RULETA_ML/static/js/main.667ffff8.js",
+    "main.css": "/RULETA_ML/static/css/main.21e4a3f4.css",
+    "main.js": "/RULETA_ML/static/js/main.80b169f9.js",
     "static/js/453.1b2cfe1d.chunk.js": "/RULETA_ML/static/js/453.1b2cfe1d.chunk.js",
-    "static/media/ruleta.png": "/RULETA_ML/static/media/ruleta.ca0df01ca2349b50dc4b.png",
-    "static/media/logo.png": "/RULETA_ML/static/media/logo.3efbbb643596eff85219.png",
+    "static/media/colapinto2.png": "/RULETA_ML/static/media/colapinto2.3c0d9c3b033193ab8150.png",
+    "static/media/ruleta.png": "/RULETA_ML/static/media/ruleta.7f033650eae5685c5e35.png",
+    "static/media/Montserrat-VariableFont_wght.ttf": "/RULETA_ML/static/media/Montserrat-VariableFont_wght.0ba081b76521874cf46c.ttf",
+    "static/media/colapinto1.png": "/RULETA_ML/static/media/colapinto1.52fa1efedc2c2928f17b.png",
+    "static/media/fondo1.jpg": "/RULETA_ML/static/media/fondo1.110b0182cc56a1fdeb98.jpg",
+    "static/media/fondo2.jpg": "/RULETA_ML/static/media/fondo2.8c07c6b397a9458f9c78.jpg",
+    "static/media/logo-marca.png": "/RULETA_ML/static/media/logo-marca.66d53db39de3fc50b1b0.png",
     "static/media/centro.png": "/RULETA_ML/static/media/centro.a0b3bb55d32cb607624d.png",
     "index.html": "/RULETA_ML/index.html",
-    "main.14cdd660.css.map": "/RULETA_ML/static/css/main.14cdd660.css.map",
-    "main.667ffff8.js.map": "/RULETA_ML/static/js/main.667ffff8.js.map",
+    "main.21e4a3f4.css.map": "/RULETA_ML/static/css/main.21e4a3f4.css.map",
+    "main.80b169f9.js.map": "/RULETA_ML/static/js/main.80b169f9.js.map",
     "453.1b2cfe1d.chunk.js.map": "/RULETA_ML/static/js/453.1b2cfe1d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.14cdd660.css",
-    "static/js/main.667ffff8.js"
+    "static/css/main.21e4a3f4.css",
+    "static/js/main.80b169f9.js"
   ]
 }
