@@ -49,7 +49,8 @@
   width: calc(var(--u) * 84);
   padding: calc(var(--u) * 8) calc(var(--u) * 5);
   border-radius: calc(var(--u) * 5);
-  color: var(--azul);
+  color: #fff;
+  text-shadow: 0 calc(var(--u) * 0.3) calc(var(--u) * 1.2) rgba(20, 24, 70, 0.45);
   animation: tarjetaEntra 0.7s cubic-bezier(0.2, 1.5, 0.4, 1) both;
 }
 
