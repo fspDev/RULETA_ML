@@ -1,121 +1,127 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import "./Ruleta.css"; // Importa el archivo de estilos CSS
+import "./Ruleta.css";
 import centro from "./images/centro.png";
-import ruleta from "./images/ruleta.png"; // Importa la imagen de la ruleta
+import ruleta from "./images/ruleta.png";
+import PremioOverlay from "./PremioOverlay";
+import ColapintoOverlay from "./ColapintoOverlay";
+import { PROB_REPETIR, elegirPremio, registrarPremio } from "./premios";
 
-function Ruleta() {
-  // Estado para controlar la visibilidad de la imagen y el número de la casilla
-  const [mostrarImagen, setMostrarImagen] = useState(false);
-  const [numeroCasilla] = useState(null);
+// Sectores de la imagen de la ruleta, en sentido horario desde las 12, 45° cada uno.
+// El indicador (gota del centro) apunta hacia arriba.
+const SECTORES = ["tira", "gracias", "otra", "ml", "tira", "gracias", "otra", "ml"];
 
-  // Estado para controlar el premio actual
-  const [premio, setPremio] = useState("Suerte!");
+const TEXTOS = {
+  tira: "¡TIRÁ DE NUEVO!",
+  otra: "¡OTRA OPORTUNIDAD!",
+  gracias: "¡GRACIAS POR PARTICIPAR!",
+};
 
-  // Estado para controlar la rotación de la ruleta
+const DURACION_GIRO = 7000; // ms
+
+// Calcula la rotación necesaria para que el indicador caiga dentro del sector pedido.
+function rotacionHacia(tipo, actual) {
+  const opciones = SECTORES.map((s, i) => (s === tipo ? i : -1)).filter((i) => i >= 0);
+  const i = opciones[Math.floor(Math.random() * opciones.length)];
+  const angulo = i * 45 + 22.5 + (Math.random() * 2 - 1) * 18; // sin caer en el borde
+  const objetivo = (360 - angulo) % 360;
+  const delta = (objetivo - (actual % 360) + 360) % 360;
+  const vueltas = 6 + Math.floor(Math.random() * 3);
+  return actual + vueltas * 360 + delta;
+}
+
+function Ruleta({ estado, setEstado, onRegresar, bloqueado }) {
   const [rotation, setRotation] = useState(0);
+  const [girando, setGirando] = useState(false);
+  const [mensaje, setMensaje] = useState("¡SUERTE!");
+  const [destacar, setDestacar] = useState(false);
+  const [premio, setPremio] = useState(null); // id del premio ganado
+  const repeticiones = useRef(0); // "tirá de nuevo" seguidos de la misma persona
+  const timer = useRef(null);
 
-  // Referencia para acceder al elemento de la barra de girar
-  const barraRef = useRef(null);
+  useEffect(() => () => clearTimeout(timer.current), []);
 
-  // Función para realizar la rotación de la ruleta
-  const girar = () => {
-    const nuevaRotacion = Math.floor(Math.random() * 210) + 340;
-    setRotation((prevRotation) => prevRotation + 2 * nuevaRotacion);
-  };
+  const girar = useCallback(() => {
+    if (girando || premio || bloqueado) return;
 
-  // Función ejecutada al finalizar la animación de la ruleta
-  const final = () => {
-    const grados = ((rotation % 360) + 360) % 360;
-    let nuevoPremio = "";
-
-    // Determinar el premio según el rango de grados
-    if (grados >= 0 && grados <= 44) {
-      nuevoPremio = "¡GANASTE!";
-    } else if (grados >= 45 && grados <= 89) {
-      nuevoPremio = "OTRA OPORTUNIDAD";
-    } else if (grados >= 90 && grados <= 134) {
-      nuevoPremio = "GRACIAS POR PARTICIPAR";
-    } else if (grados >= 135 && grados <= 179) {
-      nuevoPremio = "TIRÁ DE NUEVO";
-    } else if (grados >= 180 && grados <= 224) {
-      nuevoPremio = "¡GANASTE!";
-    } else if (grados >= 225 && grados <= 269) {
-      nuevoPremio = "OTRA OPORTUNIDAD";
-    } else if (grados >= 270 && grados <= 314) {
-      nuevoPremio = "GRACIAS POR PARTICIPAR";
-    } else if (grados >= 315 && grados <= 359) {
-      nuevoPremio = "TIRÁ DE NUEVO";
+    let tipo;
+    let idPremio = null;
+    const p = PROB_REPETIR[Math.min(repeticiones.current, PROB_REPETIR.length - 1)];
+    if (Math.random() < p) {
+      tipo = Math.random() < 0.5 ? "tira" : "otra";
+    } else {
+      idPremio = elegirPremio(estado);
+      tipo = idPremio ? "ml" : "gracias"; // "gracias" solo si se agotaron los premios
     }
 
-    // Actualizar el premio
-    setPremio(nuevoPremio);
+    setGirando(true);
+    setDestacar(false);
+    setMensaje("¡SUERTE!");
+    setRotation((r) => rotacionHacia(tipo, r));
+    setEstado((e) => ({ ...e, giros: e.giros + 1 }));
 
-    // Restaurar el texto de "Suerte!" después de 3 segundos
-    setTimeout(() => {
-      setPremio("SUERTE!");
-    }, 2000);
-  };
+    timer.current = setTimeout(() => {
+      setGirando(false);
+      if (tipo === "ml") {
+        repeticiones.current = 0;
+        setEstado((e) => registrarPremio(e, idPremio));
+        setPremio(idPremio);
+      } else {
+        repeticiones.current = tipo === "gracias" ? 0 : repeticiones.current + 1;
+        setMensaje(TEXTOS[tipo]);
+        setDestacar(true);
+      }
+    }, DURACION_GIRO + 200);
+  }, [girando, premio, bloqueado, estado, setEstado]);
 
-  // Función para manejar el evento de clic en el botón de girar
-  const lanzar = () => {
-    setMostrarImagen(false);
-    girar();
-  };
+  // Barra espaciadora o Enter también giran (útil con teclado o control remoto).
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.code === "Space" || e.code === "Enter" || e.code === "NumpadEnter") {
+        e.preventDefault();
+        girar();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [girar]);
 
-  // Función para manejar el evento de clic en el botón de regresar
-  const handleRegresar = () => {
-    window.location.href = "./index.html"; // Usa una ruta relativa para regresar
-  };
+  const cerrarPremio = useCallback(() => {
+    setPremio(null);
+    setMensaje("¡SUERTE!");
+    setDestacar(false);
+  }, []);
 
   return (
-    <div className="plafon">
-      {/* Elemento de la ruleta */}
-      <div
-        className="ruleta"
-        style={{
-          backgroundImage: `url(${ruleta})`, // Aquí se referencia la imagen de la ruleta
-          transform: `rotate(${rotation}deg)`,
-          transition: "transform 4s cubic-bezier(0.2, 1.2, 1.0, 0.99)",
-          filter: mostrarImagen ? "blur(5px)" : "none",
-        }}
-        onTransitionEnd={final}
-      ></div>
-
-      {/* Contenedor de la imagen de la casilla */}
-      <div className="imagen-casilla-container">
-        {/* Mostrar la imagen de la casilla si está activa */}
-        {mostrarImagen && numeroCasilla && (
-          <div className="imagen-casilla">
-            <img
-              src={`./${numeroCasilla}.png`}
-              alt={`Casilla ${numeroCasilla}`}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Elemento para mostrar el premio actual */}
-      <div className="premio">{premio}</div>
-
-      {/* Barra inferior con los botones de girar y regresar */}
-      <div className="barraInferior">
-        <button className="BotonGirar" onClick={lanzar}>
-          Girar
-        </button>
-        <button className="BotonRegresar" onClick={handleRegresar}>
-          Regresar
-        </button>
-      </div>
-
-      {/* Elemento central con imagen */}
-      <div className="central">
-        <img
-          src={centro}
-          alt="centro"
-          style={{ filter: mostrarImagen ? "blur(5px)" : "none" }}
+    <div className="Pantalla Pantalla-ruleta">
+      <div className="Ruleta-rueda">
+        <div className="Ruleta-aro" />
+        <div
+          className="Ruleta-imagen"
+          style={{
+            backgroundImage: `url(${ruleta})`,
+            transform: `rotate(${rotation}deg)`,
+            transition: `transform ${DURACION_GIRO}ms cubic-bezier(0.12, 0.72, 0.12, 1)`,
+          }}
         />
+        <img className="Ruleta-centro" src={centro} alt="" draggable="false" />
       </div>
+
+      <div className={`Ruleta-mensaje glass ${destacar ? "destacar" : ""}`} key={mensaje + destacar}>
+        {mensaje}
+      </div>
+
+      <div className="Ruleta-botones">
+        <button className="Boton Boton-girar glass" onClick={girar} disabled={girando || !!premio}>
+          {girando ? "GIRANDO…" : "GIRAR"}
+        </button>
+        <button className="Boton Boton-regresar glass" onClick={onRegresar} disabled={girando}>
+          REGRESAR
+        </button>
+      </div>
+
+      {premio === "firmada" && <ColapintoOverlay onCerrar={cerrarPremio} />}
+      {premio && premio !== "firmada" && <PremioOverlay id={premio} onCerrar={cerrarPremio} />}
     </div>
   );
 }

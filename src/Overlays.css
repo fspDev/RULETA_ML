@@ -1,0 +1,330 @@
+.Overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.Overlay-hint {
+  position: absolute;
+  bottom: calc(var(--u) * 7);
+  left: 0;
+  right: 0;
+  font-size: calc(var(--u) * 2.6);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  animation: hintLatido 1.6s ease-in-out infinite;
+}
+
+@keyframes hintLatido {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- Premio común ---------- */
+
+.Overlay-premio {
+  background: rgba(45, 50, 119, 0.32);
+  -webkit-backdrop-filter: blur(calc(var(--u) * 0.8));
+  backdrop-filter: blur(calc(var(--u) * 0.8));
+  animation: aparecer 0.35s ease-out both;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+  }
+}
+
+.Premio-tarjeta {
+  position: relative;
+  width: calc(var(--u) * 84);
+  padding: calc(var(--u) * 8) calc(var(--u) * 5);
+  border-radius: calc(var(--u) * 5);
+  color: var(--azul);
+  animation: tarjetaEntra 0.7s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+
+@keyframes tarjetaEntra {
+  from {
+    transform: scale(0.3) rotate(-6deg);
+    opacity: 0;
+  }
+}
+
+.Premio-felicidades {
+  font-size: calc(var(--u) * 7.2);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.Premio-ganaste {
+  margin-top: calc(var(--u) * 2);
+  font-size: calc(var(--u) * 4.4);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+.Premio-titulo {
+  margin-top: calc(var(--u) * 3);
+  font-size: calc(var(--u) * 9.5);
+  font-weight: 900;
+  line-height: 1.02;
+}
+
+.Premio-detalle {
+  margin-top: calc(var(--u) * 1.5);
+  font-size: calc(var(--u) * 6.4);
+  font-weight: 800;
+}
+
+.Confeti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.Confeti span {
+  position: absolute;
+  top: -6%;
+  border-radius: calc(var(--u) * 0.2);
+  animation-name: confetiCae;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: backwards;
+}
+
+@keyframes confetiCae {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(115vh) rotate(720deg);
+  }
+}
+
+/* ---------- Gorra firmada por Franco Colapinto ---------- */
+
+.Overlay-colapinto {
+  background: radial-gradient(circle at 50% 32%, #1f78e0 0%, #0b2466 50%, #040a22 100%);
+  color: #fff;
+  justify-content: flex-start;
+  padding: calc(var(--u) * 11) 0 calc(var(--u) * 14);
+  animation: aparecer 0.15s ease-out both;
+}
+
+.Colapinto-logo {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: calc(var(--u) * 46);
+  padding: calc(var(--u) * 3.6) calc(var(--u) * 4.4);
+  border-radius: calc(var(--u) * 3.5);
+  box-shadow: 0 0 calc(var(--u) * 5) rgba(255, 231, 0, 0.35),
+    0 calc(var(--u) * 1.4) calc(var(--u) * 4) rgba(0, 0, 0, 0.45);
+  animation: logoEntra 0.5s 0.15s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+
+@keyframes logoEntra {
+  from {
+    transform: translateY(-60%) scale(0.7);
+    opacity: 0;
+  }
+}
+
+/* Líneas de velocidad */
+.Velocidad {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.Velocidad span {
+  position: absolute;
+  left: 0;
+  border-radius: 999px;
+  animation-name: raya;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes raya {
+  from {
+    transform: translateX(110vw);
+  }
+  to {
+    transform: translateX(-70vw);
+  }
+}
+
+/* Bandas a cuadros que corren */
+.Cuadros {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(var(--u) * 5);
+  background: conic-gradient(#fff 25%, #111 0 50%, #fff 0 75%, #111 0) 0 0 /
+    calc(var(--u) * 5) calc(var(--u) * 5);
+  opacity: 0.9;
+  animation: cuadrosCorren 0.5s linear infinite;
+}
+
+.Cuadros-arriba {
+  top: 0;
+}
+
+.Cuadros-abajo {
+  bottom: 0;
+  animation-direction: reverse;
+}
+
+@keyframes cuadrosCorren {
+  to {
+    background-position: calc(var(--u) * -10) 0;
+  }
+}
+
+/* Imágenes que pasan a toda velocidad */
+.Colapinto-escena {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  margin: calc(var(--u) * 4) 0;
+  display: grid;
+  grid-template-rows: 100%;
+  place-items: center;
+  pointer-events: none;
+}
+
+.Colapinto-img {
+  grid-area: 1 / 1;
+  max-width: calc(var(--u) * 78);
+  max-height: 100%;
+  animation: pasada 2.4s cubic-bezier(0.3, 0, 0.2, 1) infinite both;
+  filter: drop-shadow(0 0 calc(var(--u) * 3) rgba(94, 200, 255, 0.55));
+}
+
+.Colapinto-img-2 {
+  animation-delay: 1.2s;
+}
+
+@keyframes pasada {
+  0% {
+    transform: translateX(150%) skewX(-28deg) scaleX(1.25);
+    opacity: 0;
+  }
+  9% {
+    transform: translateX(-5%) skewX(8deg) scaleX(0.96);
+    opacity: 1;
+  }
+  14% {
+    transform: translateX(0) skewX(0) scale(1);
+  }
+  42% {
+    transform: translateX(-3%) scale(1.05);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-160%) skewX(28deg) scaleX(1.3);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-160%) skewX(28deg) scaleX(1.3);
+    opacity: 0;
+  }
+}
+
+/* Flash blanco: uno fuerte al entrar y uno suave en cada pasada */
+.Flash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #fff;
+  pointer-events: none;
+  opacity: 0;
+  animation: flashEntrada 0.8s ease-out, flashPasada 1.2s 0.8s ease-out infinite;
+}
+
+@keyframes flashEntrada {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes flashPasada {
+  0% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.45;
+  }
+  16% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.Colapinto-tarjeta {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: calc(var(--u) * 88);
+  padding: calc(var(--u) * 5) calc(var(--u) * 4);
+  border-radius: calc(var(--u) * 4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 calc(var(--u) * 6) rgba(94, 200, 255, 0.45),
+    inset 0 calc(var(--u) * 0.25) calc(var(--u) * 0.4) rgba(255, 255, 255, 0.4);
+  transform: skewX(-8deg);
+  animation: tarjetaRacing 0.6s 0.3s cubic-bezier(0.2, 1.3, 0.3, 1) both;
+}
+
+@keyframes tarjetaRacing {
+  from {
+    transform: translateX(120%) skewX(-30deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) skewX(-8deg);
+    opacity: 1;
+  }
+}
+
+.Colapinto-felicidades {
+  font-size: calc(var(--u) * 8.5);
+  font-weight: 900;
+  color: var(--amarillo);
+  text-shadow: 0 0 calc(var(--u) * 2) rgba(255, 230, 0, 0.6);
+}
+
+.Colapinto-texto {
+  margin-top: calc(var(--u) * 2);
+  font-size: calc(var(--u) * 5.2);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.Colapinto-nombre {
+  margin-top: calc(var(--u) * 1.5);
+  font-size: calc(var(--u) * 8.4);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(90deg, #5ec8ff, #ffffff 50%, #ff5aae);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 calc(var(--u) * 1.5) rgba(94, 200, 255, 0.6));
+}

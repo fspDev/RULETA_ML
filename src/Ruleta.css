@@ -1,163 +1,94 @@
-/* Ruleta.css */
+/* Pantalla de la ruleta — diseñada para TV vertical (9:16) */
 
-/* Configuración básica del cuerpo */
-.BotonRegresar {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  background-color: #ffe600;
-  color: #2D3277;
-  border: 2px solid #2D3277;
-  border-radius: 12px;
-  padding: 10px 15px;
-  cursor: pointer;
-  width: 150px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: transform 0.2s;
-  margin-top: 20px;
+.Pantalla-ruleta {
+  justify-content: center;
+  gap: calc(var(--u) * 9);
 }
 
-.BotonGirar{
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  background-color: #ffe600;
-  color: #2D3277;
-  border: 2px solid #2D3277;
-  border-radius: 12px;
-  padding: 10px 15px;
-  cursor: pointer;
-  width: 150px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: transform 0.2s;
-  margin-top: 20px;
-  margin-right: 40px; /* Separación reducida entre los botones */
+/* Rueda */
+.Ruleta-rueda {
+  position: relative;
+  width: calc(var(--u) * 88);
+  height: calc(var(--u) * 88);
+  flex-shrink: 0;
 }
 
-  
-  /* Estilos para el botón 'Girar' */
-  .lanzar {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 25px;
-    background-color: #1d63ad;
-    color: #ffffff;
-    border: 2px solid white;
-    border-radius: 12px;
-    padding: 15px 50px;
-    cursor: pointer;
-    margin: 50px;
-    transition: transform 0.2s; /* Agrega una transición suave */
+.Ruleta-aro {
+  position: absolute;
+  inset: calc(var(--u) * -2.6);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.12));
+  border: calc(var(--u) * 0.25) solid rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(calc(var(--u) * 1.6)) saturate(160%);
+  backdrop-filter: blur(calc(var(--u) * 1.6)) saturate(160%);
+  box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 6) rgba(45, 50, 119, 0.35),
+    inset 0 0 calc(var(--u) * 2) rgba(255, 255, 255, 0.6);
+}
+
+.Ruleta-imagen {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  filter: drop-shadow(0 calc(var(--u) * 0.6) calc(var(--u) * 1.2) rgba(0, 0, 0, 0.25));
+}
+
+/* Indicador: la gota amarilla con el logo, con la punta hacia arriba */
+.Ruleta-centro {
+  position: absolute;
+  width: 37.5%;
+  left: 50%;
+  top: 26.4%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  filter: drop-shadow(0 calc(var(--u) * 0.8) calc(var(--u) * 1.2) rgba(0, 0, 0, 0.35));
+}
+
+/* Mensaje */
+.Ruleta-mensaje {
+  min-width: calc(var(--u) * 60);
+  padding: calc(var(--u) * 2.2) calc(var(--u) * 6);
+  border-radius: calc(var(--u) * 10);
+  font-size: calc(var(--u) * 5.4);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: var(--azul);
+}
+
+.Ruleta-mensaje.destacar {
+  animation: mensajePop 0.6s cubic-bezier(0.2, 1.6, 0.4, 1) both,
+    mensajeLatido 1.4s 0.6s ease-in-out infinite;
+  background: linear-gradient(135deg, rgba(255, 240, 80, 0.8), rgba(255, 230, 0, 0.45));
+}
+
+@keyframes mensajePop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
   }
-  
-  .lanzar:active {
-    transform: scale(0.95); /* Reduce ligeramente el tamaño al ser presionado */
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  /* Estilos para el texto de premio */
-  .premio {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    color: #2D3277;
+}
+
+@keyframes mensajeLatido {
+  50% {
+    transform: scale(1.06);
   }
-  
-  /* Estilos para la imagen 'Ganaste' */
-  .ganaste {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 150px;
-  }
-  
-  .ganaste img {
-    width: 40px;
-  }
-  
-  /* Estilos para el contenedor principal */
-  .plafon {
-    position: relative;
-    margin: 10px auto 0;
-    text-align: center;
-    width: 720px;
-  }
-  
-  /* Estilos para la ruleta */
-  .ruleta {
-    width: 500px;
-    height: 500px;
-    background-size: cover;
-    background-position: center;
-    margin: 0 auto 15px;
-    transition: transform 4s cubic-bezier(0.2, 1.2, 1.0, 0.99);
-  }
-  
-  /* Estilos para el centro de la ruleta */
-  .central {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 150px;
-    top: 160px;
-    transform: scale(1.25); /* Aumenta el tamaño en un 25% */
-  }
-  
-  /* Estilos generales para las imágenes */
-  img {
-    width: 100%;
-  }
-  
-  /* Clase de pausa para la animación de la barra */
-  .parate {
-    animation-play-state: paused;
-  }
-  
-  /* Animación de la barra */
-  @keyframes animacionBarra {
-    0% {
-      width: 0%;
-    }
-    50% {
-      width: 100%;
-    }
-    100% {
-      width: 0%;
-    }
-  }
-  
-  /* Estilos para el contenedor de la imagen de la casilla */
-  .imagen-casilla-container {
-    position: relative;
-    z-index: 999; /* Asegura que el contenedor esté por encima de otros elementos, excepto la imagen */
-  }
-  
-  /* Estilos para la imagen de la casilla */
-  .imagen-casilla {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
-    width: 50%;
-    height: auto;
-    z-index: 1000; /* Asegura que la imagen esté en la parte superior de otros elementos */
-  }
-  
-  /* Clase para aplicar desenfoque al fondo */
-  .blurred::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: inherit;
-    filter: blur(5px);
-    z-index: -1;
-  }
+}
+
+/* Botones */
+.Ruleta-botones {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 5);
+}
+
+.Boton-regresar {
+  font-size: calc(var(--u) * 3.4);
+  padding: calc(var(--u) * 2.6) calc(var(--u) * 5);
+}

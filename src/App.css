@@ -1,42 +1,100 @@
 .App {
+  position: relative;
+  height: 100%;
   text-align: center;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: auto; /* ajusta automáticamente la altura */
-  width: 400px; /* establece un ancho fijo */
+/* Fondo rotativo */
+.Fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--amarillo);
 }
 
-.App-header {
-  background: #ffe600;
-  min-height: 100vh;
+.Fondo-capa {
+  position: absolute;
+  inset: -2%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.8s ease-in-out;
+  animation: fondoZoom 22s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+
+.Fondo-capa.activo {
+  opacity: 1;
+}
+
+@keyframes fondoZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+/* Pantallas */
+.Pantalla {
+  position: relative;
+  z-index: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.App-home {
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #2D3277;
+  gap: calc(var(--u) * 7);
 }
 
-.App-link {
-  color: #61dafb;
+.App-logo {
+  width: calc(var(--u) * 74);
+  padding: calc(var(--u) * 6) calc(var(--u) * 7);
 }
 
-.Trivia, .Ruleta {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  background-color: #ffe600;
-  color: #2D3277;
-  border: 2px solid #2D3277;
-  border-radius: 12px;
-  padding: 10px 40px;
+/* Caja del logo según brandbook: amarillo #FFE700 sólido, sin transparencia */
+.Logo-caja {
+  background: #ffe700;
+  border-radius: calc(var(--u) * 5);
+  box-shadow: 0 calc(var(--u) * 1.4) calc(var(--u) * 4.5) rgba(45, 50, 119, 0.28);
+}
+
+.Logo {
+  display: block;
+  width: 100%;
+  height: auto;
   cursor: pointer;
-  margin: 20px;
-  transition: transform 0.2s; /* Agrega una transición suave */
 }
 
-.Trivia:active,
-.Ruleta:active {
-  transform: scale(0.95); /* Reduce ligeramente el tamaño al ser presionado */
+/* Botones */
+.Boton {
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--azul);
+  cursor: pointer;
+  border-radius: calc(var(--u) * 2.6);
+  transition: transform 0.15s, opacity 0.2s;
+}
+
+.Boton:active {
+  transform: scale(0.95);
+}
+
+.Boton:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.Boton-girar {
+  font-size: calc(var(--u) * 5.2);
+  padding: calc(var(--u) * 2.6) calc(var(--u) * 10);
+  background: linear-gradient(135deg, rgba(255, 240, 80, 0.85), rgba(255, 230, 0, 0.55));
+  border-color: rgba(255, 255, 255, 0.8);
 }
