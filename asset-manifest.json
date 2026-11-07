@@ -1,8 +1,10 @@
 {
   "files": {
-    "main.css": "/RULETA_ML/static/css/main.c591a439.css",
-    "main.js": "/RULETA_ML/static/js/main.13ce382f.js",
+    "main.css": "/RULETA_ML/static/css/main.3a4f99ba.css",
+    "main.js": "/RULETA_ML/static/js/main.ba958748.js",
     "static/js/453.1b2cfe1d.chunk.js": "/RULETA_ML/static/js/453.1b2cfe1d.chunk.js",
+    "static/media/gorra-frente.png": "/RULETA_ML/static/media/gorra-frente.c0ea686549144cf5e5e3.png",
+    "static/media/gorra-lado.png": "/RULETA_ML/static/media/gorra-lado.6c813e624488f65167a9.png",
     "static/media/colapinto2.png": "/RULETA_ML/static/media/colapinto2.3c0d9c3b033193ab8150.png",
     "static/media/ruleta.png": "/RULETA_ML/static/media/ruleta.7709678148fc5d972a96.png",
     "static/media/Montserrat-VariableFont_wght.ttf": "/RULETA_ML/static/media/Montserrat-VariableFont_wght.0ba081b76521874cf46c.ttf",
@@ -12,12 +14,12 @@
     "static/media/logo-marca.png": "/RULETA_ML/static/media/logo-marca.66d53db39de3fc50b1b0.png",
     "static/media/centro.png": "/RULETA_ML/static/media/centro.a0b3bb55d32cb607624d.png",
     "index.html": "/RULETA_ML/index.html",
-    "main.c591a439.css.map": "/RULETA_ML/static/css/main.c591a439.css.map",
-    "main.13ce382f.js.map": "/RULETA_ML/static/js/main.13ce382f.js.map",
+    "main.3a4f99ba.css.map": "/RULETA_ML/static/css/main.3a4f99ba.css.map",
+    "main.ba958748.js.map": "/RULETA_ML/static/js/main.ba958748.js.map",
     "453.1b2cfe1d.chunk.js.map": "/RULETA_ML/static/js/453.1b2cfe1d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c591a439.css",
-    "static/js/main.13ce382f.js"
+    "static/css/main.3a4f99ba.css",
+    "static/js/main.ba958748.js"
   ]
 }
