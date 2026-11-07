@@ -1,13 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
 import colapinto1 from "./images/colapinto1.png";
 import colapinto2 from "./images/colapinto2.png";
+import gorraFrente from "./images/gorra-frente.png";
+import gorraLado from "./images/gorra-lado.png";
 import Logo from "./Logo";
 import "./Overlays.css";
 
 const RAYAS_COLORES = ["rgba(255,255,255,0.9)", "rgba(94,200,255,0.9)", "rgba(255,90,174,0.85)"];
 
+// Las fotos de la gorra pesan; se precargan apenas carga la app para que en el tiro 43
+// ya estén listas y la animación no arranque con huecos.
+[colapinto1, colapinto2, gorraFrente, gorraLado].forEach((src) => {
+  const img = new Image();
+  img.src = src;
+});
+
 // Pantalla especial del tiro de la gorra firmada.
-// Las dos imágenes pasan alternadas a toda velocidad, con líneas de velocidad y flashes.
+// 1) Pasan a toda velocidad las dos imágenes de Colapinto (sticker 43 y casco).
+// 2) Entra derrapando la gorra firmada, con un halo de rayos girando detrás,
+//    y queda girando entre la vista de frente y la de costado.
 // No se cierra sola: el staff la cierra tocando después de entregar el premio.
 function ColapintoOverlay({ onCerrar }) {
   const [puedeCerrar, setPuedeCerrar] = useState(false);
@@ -66,8 +77,13 @@ function ColapintoOverlay({ onCerrar }) {
       </div>
 
       <div className="Colapinto-escena" aria-hidden="true">
+        <div className="Gorra-halo" />
         <img className="Colapinto-img Colapinto-img-1" src={colapinto1} alt="" />
         <img className="Colapinto-img Colapinto-img-2" src={colapinto2} alt="" />
+        <div className="Gorra">
+          <img className="Gorra-img Gorra-img-frente" src={gorraFrente} alt="" />
+          <img className="Gorra-img Gorra-img-lado" src={gorraLado} alt="" />
+        </div>
       </div>
 
       <div className="Colapinto-tarjeta glass">

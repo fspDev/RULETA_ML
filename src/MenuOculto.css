@@ -79,6 +79,22 @@
   color: #1a8a3a;
 }
 
+.Menu-firmada em.info {
+  color: var(--azul);
+  font-weight: 700;
+}
+
+.Menu-prioridad {
+  margin-left: calc(var(--u) * 1.2);
+  padding: calc(var(--u) * 0.2) calc(var(--u) * 1);
+  border-radius: 999px;
+  background: var(--amarillo);
+  font-size: calc(var(--u) * 1.8);
+  font-weight: 800;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
 .Menu button {
   font-family: inherit;
   font-size: calc(var(--u) * 2.6);

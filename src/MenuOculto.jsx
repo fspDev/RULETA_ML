@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import {
   PREMIOS,
-  premioPorId,
+  PRIORIDAD,
+  nombrePremio,
+  probabilidadPremio,
   totalRestante,
   deshacerUltimo,
   reiniciarContador,
@@ -26,8 +28,12 @@ function MenuOculto({ estado, setEstado, onCerrar }) {
   const cambiarTiroFirmada = (delta) =>
     setEstado({ ...estado, tiroFirmada: Math.max(1, estado.tiroFirmada + delta) });
 
+  const cambiarParticipantes = (delta) =>
+    setEstado({ ...estado, participantes: Math.max(10, estado.participantes + delta) });
+
   const ultimo = estado.historial[estado.historial.length - 1];
   const firmadaEntregada = estado.stock.firmada === 0;
+  const chance = Math.round(probabilidadPremio(estado) * 100);
 
   return (
     <div className="Menu-fondo" onClick={onCerrar}>
@@ -36,11 +42,15 @@ function MenuOculto({ estado, setEstado, onCerrar }) {
 
         <div className="Menu-contador">
           <div>
+            <span className="Menu-num">{estado.tiros}</span>
+            <span className="Menu-label">participantes que jugaron</span>
+          </div>
+          <div>
             <span className="Menu-num">{estado.entregados}</span>
             <span className="Menu-label">premios entregados</span>
           </div>
           <div>
-            <span className="Menu-num">{estado.entregados + 1}</span>
+            <span className="Menu-num">{estado.tiros + 1}</span>
             <span className="Menu-label">próximo tiro</span>
           </div>
           <div>
@@ -59,6 +69,14 @@ function MenuOculto({ estado, setEstado, onCerrar }) {
           </em>
         </div>
 
+        <div className="Menu-firmada">
+          <span>Participantes estimados</span>
+          <button onClick={() => cambiarParticipantes(-50)}>−</button>
+          <strong>{estado.participantes}</strong>
+          <button onClick={() => cambiarParticipantes(50)}>+</button>
+          <em className="info">chance {chance}%</em>
+        </div>
+
         <table className="Menu-stock">
           <thead>
             <tr>
@@ -72,6 +90,7 @@ function MenuOculto({ estado, setEstado, onCerrar }) {
               <tr key={p.id} className={estado.stock[p.id] === 0 ? "agotado" : ""}>
                 <td>
                   {p.titulo} {p.detalle}
+                  {PRIORIDAD[p.id] && <span className="Menu-prioridad">prioridad</span>}
                 </td>
                 <td>{estado.stock[p.id]}</td>
                 <td>{p.cantidad}</td>
@@ -100,8 +119,8 @@ function MenuOculto({ estado, setEstado, onCerrar }) {
             {confirmando === "deshacer"
               ? "Tocá de nuevo para confirmar"
               : ultimo
-              ? `Deshacer último (N° ${ultimo.n}: ${premioPorId(ultimo.id).titulo} ${premioPorId(ultimo.id).detalle})`
-              : "Deshacer último premio"}
+              ? `Deshacer último (tiro N° ${ultimo.n}: ${nombrePremio(ultimo.id)})`
+              : "Deshacer último tiro"}
           </button>
           <button
             className={`peligro ${confirmando === "todo" ? "confirmar" : ""}`}

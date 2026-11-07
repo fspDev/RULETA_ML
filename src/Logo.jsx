@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import marca from "./images/logo-marca.png";
+import { HoySePideTrazos, encajarHoySePide } from "./HoySePide";
 
-// Logo original (marca Mercado Libre, píxeles intactos) con "HOY SE PIDE"
-// en el lugar exacto donde iba "PEDÍ COMIDA": mismo ancho, alto de letra y color.
+// Logo original (marca Mercado Libre, píxeles intactos) con "HOY SE PIDE" vectorial
+// en el lugar donde iba "PEDÍ COMIDA": mismo ancho que la marca y mismo color.
 // Tres toques rápidos abren el menú oculto.
 function Logo({ className = "", onTripleTap }) {
   const toques = useRef([]);
@@ -25,18 +26,8 @@ function Logo({ className = "", onTripleTap }) {
       onClick={tocar}
     >
       <image href={marca} x="0" y="0" width="1931" height="489" />
-      <text
-        x="0"
-        y="890"
-        textLength="1926"
-        lengthAdjust="spacingAndGlyphs"
-        fill="#2a2a29"
-        fontFamily="Montserrat, Arial, sans-serif"
-        fontWeight="700"
-        fontSize="297"
-      >
-        HOY SE PIDE
-      </text>
+      {/* Letras de 0 a 1926 de ancho, con la base en y≈890 como el texto anterior */}
+      <HoySePideTrazos fill="#2a2a29" transform={encajarHoySePide(0, 675, 1926)} />
     </svg>
   );
 }

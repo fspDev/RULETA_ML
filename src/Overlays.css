@@ -193,7 +193,10 @@
   }
 }
 
-/* Imágenes que pasan a toda velocidad */
+/* Escena central. Línea de tiempo:
+   0.1s  pasa el sticker 43        1.2s  pasa el casco
+   2.3s  entra la gorra derrapando 2.75s golpe de flash + halo de rayos
+   desde ahí la gorra alterna frente / costado cada 2.5s con un giro en Y. */
 .Colapinto-escena {
   flex: 1;
   min-height: 0;
@@ -209,7 +212,8 @@
   grid-area: 1 / 1;
   max-width: calc(var(--u) * 78);
   max-height: 100%;
-  animation: pasada 2.4s cubic-bezier(0.3, 0, 0.2, 1) infinite both;
+  opacity: 0;
+  animation: pasada 1.3s 0.1s cubic-bezier(0.3, 0, 0.2, 1) both;
   filter: drop-shadow(0 0 calc(var(--u) * 3) rgba(94, 200, 255, 0.55));
 }
 
@@ -222,20 +226,16 @@
     transform: translateX(150%) skewX(-28deg) scaleX(1.25);
     opacity: 0;
   }
-  9% {
+  18% {
     transform: translateX(-5%) skewX(8deg) scaleX(0.96);
     opacity: 1;
   }
-  14% {
+  28% {
     transform: translateX(0) skewX(0) scale(1);
   }
-  42% {
+  80% {
     transform: translateX(-3%) scale(1.05);
     opacity: 1;
-  }
-  50% {
-    transform: translateX(-160%) skewX(28deg) scaleX(1.3);
-    opacity: 0;
   }
   100% {
     transform: translateX(-160%) skewX(28deg) scaleX(1.3);
@@ -243,7 +243,125 @@
   }
 }
 
-/* Flash blanco: uno fuerte al entrar y uno suave en cada pasada */
+/* Halo de rayos amarillos detrás de la gorra */
+.Gorra-halo {
+  grid-area: 1 / 1;
+  width: calc(var(--u) * 125);
+  height: calc(var(--u) * 125);
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    rgba(255, 231, 0, 0.55) 0deg 8deg,
+    rgba(255, 231, 0, 0) 8deg 22.5deg
+  );
+  -webkit-mask: radial-gradient(circle, #000 15%, transparent 66%);
+  mask: radial-gradient(circle, #000 15%, transparent 66%);
+  opacity: 0;
+  animation: haloAparece 0.7s 2.6s ease-out forwards, haloGira 16s linear infinite;
+}
+
+@keyframes haloAparece {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes haloGira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* La gorra firmada */
+.Gorra {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 100%;
+  place-items: center;
+  perspective: calc(var(--u) * 140);
+  animation: gorraEntra 0.8s 2.3s cubic-bezier(0.2, 1, 0.3, 1) both,
+    gorraFlota 3.2s 3.1s ease-in-out infinite;
+}
+
+@keyframes gorraEntra {
+  0% {
+    transform: translateX(140%) skewX(-30deg) scale(1.15);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateX(-6%) skewX(10deg) scale(1.02);
+  }
+  78% {
+    transform: translateX(2%) skewX(-3deg) scale(1);
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes gorraFlota {
+  50% {
+    transform: translateY(-2.5%) scale(1.03);
+  }
+}
+
+/* Caja fija y object-fit: las dos fotos tienen proporciones distintas (frente 1.1:1,
+   costado 1.5:1) y así ninguna se deforma y ambas ocupan todo el espacio posible. */
+.Gorra-img {
+  grid-area: 1 / 1;
+  width: calc(var(--u) * 86);
+  height: 94%;
+  object-fit: contain;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  filter: drop-shadow(0 0 calc(var(--u) * 2.5) rgba(255, 231, 0, 0.55))
+    drop-shadow(0 calc(var(--u) * 2) calc(var(--u) * 2.5) rgba(0, 0, 0, 0.5));
+  animation: gorraVista 5s infinite both;
+}
+
+/* Frente visible al entrar (a 1.9s + 0.4s ya está de frente); el costado entra
+   justo cuando el frente sale, medio ciclo después. */
+.Gorra-img-frente {
+  animation-delay: 1.9s;
+}
+
+.Gorra-img-lado {
+  animation-delay: 4.4s;
+}
+
+@keyframes gorraVista {
+  0% {
+    transform: rotateY(-90deg);
+    opacity: 0;
+  }
+  8% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  48% {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+  56% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+}
+
+/* Flash blanco: uno fuerte al entrar, un golpe cuando frena la gorra
+   y uno suave en cada giro entre frente y costado */
 .Flash {
   position: absolute;
   inset: 0;
@@ -251,7 +369,8 @@
   background: #fff;
   pointer-events: none;
   opacity: 0;
-  animation: flashEntrada 0.8s ease-out, flashPasada 1.2s 0.8s ease-out infinite;
+  animation: flashEntrada 0.8s ease-out, flashEntrada 0.9s 2.7s ease-out,
+    flashPasada 2.5s 4.4s ease-out infinite;
 }
 
 @keyframes flashEntrada {
@@ -267,10 +386,10 @@
   0% {
     opacity: 0;
   }
-  4% {
-    opacity: 0.45;
+  5% {
+    opacity: 0.3;
   }
-  16% {
+  20% {
     opacity: 0;
   }
   100% {

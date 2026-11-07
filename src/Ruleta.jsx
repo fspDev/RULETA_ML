@@ -5,7 +5,20 @@ import centro from "./images/centro.png";
 import ruleta from "./images/ruleta.png";
 import PremioOverlay from "./PremioOverlay";
 import ColapintoOverlay from "./ColapintoOverlay";
-import { PROB_REPETIR, elegirPremio, registrarPremio } from "./premios";
+import { HoySePideTrazos, encajarHoySePide } from "./HoySePide";
+import { PROB_REPETIR, elegirPremio, registrarTiro } from "./premios";
+
+// La imagen de la ruleta (2160x2160) trae "HOY SE PIDE" rasterizado en los dos sectores
+// de Mercado Libre. Se tapa con el amarillo del sector y se dibuja el texto vectorial
+// en el mismo lugar. Medidas tomadas con el sector girado a horizontal (+22.5°).
+function SectorHoySePide({ angulo }) {
+  return (
+    <g transform={`rotate(${angulo} 1080 1080)`}>
+      <rect x="905" y="288" width="404" height="64" fill="#ffe700" />
+      <HoySePideTrazos fill="#2d3075" transform={encajarHoySePide(915, 298, 384)} />
+    </g>
+  );
+}
 
 // Sectores de la imagen de la ruleta, en sentido horario desde las 12, 45° cada uno.
 // El indicador (gota del centro) apunta hacia arriba.
@@ -51,7 +64,7 @@ function Ruleta({ estado, setEstado, onRegresar, bloqueado }) {
       tipo = Math.random() < 0.5 ? "tira" : "otra";
     } else {
       idPremio = elegirPremio(estado);
-      tipo = idPremio ? "ml" : "gracias"; // "gracias" solo si se agotaron los premios
+      tipo = idPremio ? "ml" : "gracias"; // termina el turno sin premio
     }
 
     setGirando(true);
@@ -64,10 +77,15 @@ function Ruleta({ estado, setEstado, onRegresar, bloqueado }) {
       setGirando(false);
       if (tipo === "ml") {
         repeticiones.current = 0;
-        setEstado((e) => registrarPremio(e, idPremio));
+        setEstado((e) => registrarTiro(e, idPremio));
         setPremio(idPremio);
+      } else if (tipo === "gracias") {
+        repeticiones.current = 0;
+        setEstado((e) => registrarTiro(e, null));
+        setMensaje(TEXTOS.gracias);
+        setDestacar(true);
       } else {
-        repeticiones.current = tipo === "gracias" ? 0 : repeticiones.current + 1;
+        repeticiones.current += 1;
         setMensaje(TEXTOS[tipo]);
         setDestacar(true);
       }
@@ -99,15 +117,23 @@ function Ruleta({ estado, setEstado, onRegresar, bloqueado }) {
         <div
           className="Ruleta-imagen"
           style={{
-            backgroundImage: `url(${ruleta})`,
             transform: `rotate(${rotation}deg)`,
             transition: `transform ${DURACION_GIRO}ms cubic-bezier(0.12, 0.72, 0.12, 1)`,
           }}
-        />
+        >
+          <svg viewBox="0 0 2160 2160" aria-hidden="true">
+            <image href={ruleta} x="0" y="0" width="2160" height="2160" />
+            <SectorHoySePide angulo={-22.5} />
+            <SectorHoySePide angulo={157.5} />
+          </svg>
+        </div>
         <img className="Ruleta-centro" src={centro} alt="" draggable="false" />
       </div>
 
-      <div className={`Ruleta-mensaje glass ${destacar ? "destacar" : ""}`} key={mensaje + destacar}>
+      <div
+        className={`Ruleta-mensaje glass ${destacar ? "destacar" : ""} ${mensaje.length > 20 ? "largo" : ""}`}
+        key={mensaje + destacar}
+      >
         {mensaje}
       </div>
 
